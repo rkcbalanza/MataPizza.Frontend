@@ -1,0 +1,49 @@
+<div class="container mx-auto mt-5">
+  <div class="overflow-x-auto shadow-lg rounded-lg">
+    <table class="min-w-full table-auto">
+      <thead>
+        <tr class="bg-gray-100">
+          <th class="px-4 py-2 text-left">Order ID</th>
+          <th class="px-4 py-2 text-left">Order Date</th>
+          <th class="px-4 py-2 text-left">Order Time</th>
+          <th class="px-4 py-2 text-left">Total Items</th>
+          <th class="px-4 py-2 text-left">Total Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (order of orders; track order.orderId) {
+        <tr class="border-t">
+          <td class="px-4 py-2">{{ order.orderId }}</td>
+          <td class="px-4 py-2">{{ order.orderDate }}</td>
+          <td class="px-4 py-2">{{ order.orderTime }}</td>
+          <td class="px-4 py-2">{{ order.totalItems }}</td>
+          <td class="px-4 py-2">{{ order.totalPrice | currency }}</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  <div class="flex justify-center mt-5">
+    <button
+      (click)="changePage(currentPage - 1)"
+      [disabled]="currentPage === 1"
+      class="px-4 py-2 bg-blue-500 text-white rounded-l-lg disabled:bg-gray-300"
+    >
+      Previous
+    </button>
+
+    <span class="px-4 py-2 flex items-center">
+      Page {{ currentPage }} of {{ totalPages }}
+    </span>
+
+    <button
+      (click)="changePage(currentPage + 1)"
+      [disabled]="currentPage >= totalPages"
+      class="px-4 py-2 bg-blue-500 text-white rounded-r-lg disabled:bg-gray-300"
+    >
+      Next
+    </button>
+  </div>
+</div>

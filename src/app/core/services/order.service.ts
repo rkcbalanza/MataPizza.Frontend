@@ -1,8 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Order } from '../models/order.model';
 import { Observable } from 'rxjs';
+import { OrderPaginatedResponse } from '../models/order-pagination.model';
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +21,20 @@ export class OrderService {
     return this.http.get<Order[]>(`${this.baseUrl}`);
   }
 
+  // Fetch paginated orders
+  // This method takes page and size as parameters to fetch a specific page of orders
+  getPaginatedOrders(
+    page: number,
+    size: number
+  ): Observable<OrderPaginatedResponse> {
+    const params = new HttpParams().set('page', page).set('pageSize', size);
+
+    return this.http.get<OrderPaginatedResponse>(`${this.baseUrl}/paginated`, {
+      params,
+    });
+  }
+
+  // Fetch order by ID
   getOrderById(orderId: number): Observable<Order> {
     return this.http.get<Order>(`${this.baseUrl}/${orderId}`);
   }

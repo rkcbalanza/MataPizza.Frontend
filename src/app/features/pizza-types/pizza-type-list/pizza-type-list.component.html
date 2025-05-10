@@ -1,0 +1,45 @@
+<div class="container mx-auto mt-5">
+  <div class="overflow-x-auto shadow-lg rounded-lg">
+    <table class="min-w-full table-auto">
+      <thead>
+        <tr class="bg-gray-100">
+          <th class="px-4 py-2 text-left">Pizza Name</th>
+          <th class="px-4 py-2 text-left">Category</th>
+          <th class="px-4 py-2 text-left">Ingredients</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (pizzaType of pizzaTypes; track pizzaType.pizzaTypeId) {
+        <tr class="border-t">
+          <td class="px-4 py-2">{{ pizzaType.name }}</td>
+          <td class="px-4 py-2">{{ pizzaType.category }}</td>
+          <td class="px-4 py-2">{{ pizzaType.ingredients }}</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  <div class="flex justify-center mt-5">
+    <button
+      (click)="changePage(currentPage - 1)"
+      [disabled]="currentPage === 1"
+      class="px-4 py-2 bg-blue-500 text-white rounded-l-lg disabled:bg-gray-300"
+    >
+      Previous
+    </button>
+
+    <span class="px-4 py-2 flex items-center">
+      Page {{ currentPage }} of {{ totalPages }}
+    </span>
+
+    <button
+      (click)="changePage(currentPage + 1)"
+      [disabled]="currentPage >= totalPages"
+      class="px-4 py-2 bg-blue-500 text-white rounded-r-lg disabled:bg-gray-300"
+    >
+      Next
+    </button>
+  </div>
+</div>
