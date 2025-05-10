@@ -1,4 +1,46 @@
+<!--TODO: Make UI better-->
 <div class="container mx-auto mt-5">
+  <!-- Header with total count -->
+  <div class="flex justify-between items-center mb-4">
+    <h1 class="text-2xl font-bold">Pizza Types</h1>
+    <div class="text-gray-600">
+      Total: <span class="font-semibold">{{ totalCount }}</span> pizza types
+    </div>
+  </div>
+
+  <!-- Search and Filters -->
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-5">
+    <!-- Search Bar -->
+    <app-search-bar
+      placeholder="Search pizza by name, category or ingredients..."
+      (search)="onSearch($event)"
+      (clear)="clearFilters()"
+    ></app-search-bar>
+
+    <!-- Category Filter -->
+    <div>
+      <select
+        class="w-full p-2 border rounded-lg"
+        [formControl]="categoryFilter"
+      >
+        <option value="">All Categories</option>
+        @for (category of categories; track category) {
+        <option [value]="category">{{ category }}</option>
+        }
+      </select>
+    </div>
+
+    <!-- Clear Filters -->
+    <div>
+      <button
+        (click)="clearFilters()"
+        class="w-full p-2 border rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700"
+      >
+        Clear Filters
+      </button>
+    </div>
+  </div>
+
   <div class="overflow-x-auto shadow-lg rounded-lg">
     <table class="min-w-full table-auto">
       <thead>
@@ -6,16 +48,32 @@
           <th class="px-4 py-2 text-left">Pizza Name</th>
           <th class="px-4 py-2 text-left">Category</th>
           <th class="px-4 py-2 text-left">Ingredients</th>
+          <th class="px-4 py-2 text-left">Actions</th>
         </tr>
       </thead>
       <tbody>
-        @for (pizzaType of pizzaTypes; track pizzaType.pizzaTypeId) {
+        @if (pizzaTypes.length === 0) {
+        <tr class="border-t">
+          <td colspan="3" class="px-4 py-8 text-center text-gray-500">
+            No pizza types found. Try adjusting your search.
+          </td>
+        </tr>
+        } @else { @for (pizzaType of pizzaTypes; track pizzaType.pizzaTypeId) {
         <tr class="border-t">
           <td class="px-4 py-2">{{ pizzaType.name }}</td>
           <td class="px-4 py-2">{{ pizzaType.category }}</td>
           <td class="px-4 py-2">{{ pizzaType.ingredients }}</td>
+          <td class="px-4 py-2">
+            <!-- Open modal with  Pizza Details -->
+            <button
+              (click)="openDetails(pizzaType.pizzaTypeId)"
+              class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm"
+            >
+              View Details
+            </button>
+          </td>
         </tr>
-        }
+        } }
       </tbody>
     </table>
   </div>
@@ -43,3 +101,9 @@
     </button>
   </div>
 </div>
+<!-- Modal for Pizza Type Details -->
+<app-pizza-type-details
+  [pizzaType]="selectedPizzaType!"
+  [show]="showDetails"
+  [onClose]="closeDetails.bind(this)"
+></app-pizza-type-details>

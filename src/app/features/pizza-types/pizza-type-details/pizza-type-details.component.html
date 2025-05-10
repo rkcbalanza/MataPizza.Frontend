@@ -1,0 +1,48 @@
+<!-- TODO: Make UI better -->
+<div
+  class="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+  *ngIf="show"
+>
+  <!--Pizza Details-->
+  <div class="bg-white w-full max-w-xl rounded-lg shadow-lg p-6 relative">
+    <h2 class="text-xl font-bold mb-4">{{ pizzaType.name }}</h2>
+    <p><strong>Category:</strong> {{ pizzaType.category }}</p>
+    <p><strong>Ingredients:</strong> {{ pizzaType.ingredients }}</p>
+
+    <!-- Table for sizes and prices -->
+    @if (pizzaType.pizzas?.length) {
+    <div>
+      <h3 class="text-lg font-semibold mt-4 mb-2">Sizes & Prices:</h3>
+      <div class="overflow-x-auto">
+        <table class="min-w-full table-auto border border-gray-300">
+          <thead class="bg-gray-100">
+            <tr>
+              <th class="px-4 py-2 border-b text-left">Size</th>
+              <th class="px-4 py-2 border-b text-left">Price (₱)</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (pizza of pizzaType.pizzas; track pizza.size) {
+            <tr class="border-t">
+              <td class="px-4 py-2">
+                <!-- Display size based on the value -->
+                @if(pizza.size === 'S') { Small } @else if(pizza.size === 'M') {
+                Medium } @else if(pizza.size === 'L') { Large }
+              </td>
+              <td class="px-4 py-2">₱{{ pizza.price }}</td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+    }
+
+    <button
+      (click)="onClose()"
+      class="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+    >
+      ✕
+    </button>
+  </div>
+</div>
