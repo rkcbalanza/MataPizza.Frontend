@@ -1,0 +1,60 @@
+<!-- TODO: Make UI better -->
+@if (show) {
+<div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+  <!--Pizza Details-->
+  <div class="bg-white w-full max-w-xl rounded-lg shadow-lg p-6 relative">
+    <h2 class="text-xl font-bold mb-4">
+      <strong>Order ID: </strong>{{ order.orderId }}
+    </h2>
+    <p>
+      <strong>Order Date:</strong> {{ order.orderDate }} {{ order.orderTime }}
+    </p>
+
+    <!-- Table for sizes and prices -->
+    @if (order.orderDetails?.length) {
+    <div>
+      <h3 class="text-lg font-semibold mt-4 mb-2">Order Details:</h3>
+      <div class="overflow-x-auto">
+        <table class="min-w-full table-auto border border-gray-300">
+          <thead class="bg-gray-100">
+            <tr>
+              <th class="px-4 py-2 border-b text-left">Pizza</th>
+              <th class="px-4 py-2 border-b text-left">Quantity</th>
+              <th class="px-4 py-2 border-b text-left">Unit Price (₱)</th>
+              <th class="px-4 py-2 border-b text-left">Total (₱)</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (detail of order.orderDetails; track detail.orderDetailId) {
+            <tr class="border-t">
+              <td class="px-4 py-2">
+                {{ detail.pizzaTypeName }} - {{ detail.size }}
+              </td>
+              <td class="px-4 py-2">{{ detail.quantity }}</td>
+              <td class="px-4 py-2">
+                {{ detail.priceEach | currency : "PHP" }}
+              </td>
+              <td class="px-4 py-2">
+                {{ detail.totalPrice | currency : "PHP" }}
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+        <div class="mt-4 flex justify-end gap-1">
+          <strong>Total Price:</strong>
+          <span>{{ order.totalPrice | currency : "PHP" }}</span>
+        </div>
+      </div>
+    </div>
+    }
+
+    <button
+      (click)="onClose()"
+      class="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+    >
+      ✕
+    </button>
+  </div>
+</div>
+}

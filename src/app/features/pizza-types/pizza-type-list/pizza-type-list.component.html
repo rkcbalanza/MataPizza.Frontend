@@ -1,15 +1,12 @@
 <!--TODO: Make UI better-->
 <div class="container mx-auto mt-5">
   <!-- Header with total count -->
-  <div class="flex justify-between items-center mb-4">
+  <div class="mb-4">
     <h1 class="text-2xl font-bold">Pizza Types</h1>
-    <div class="text-gray-600">
-      Total: <span class="font-semibold">{{ totalCount }}</span> pizza types
-    </div>
   </div>
 
   <!-- Search and Filters -->
-  <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-5">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
     <!-- Search Bar -->
     <app-search-bar
       placeholder="Search pizza by name, category or ingredients..."
@@ -76,6 +73,13 @@
         } }
       </tbody>
     </table>
+  </div>
+
+  <!-- Total Pizza Summary -->
+  <div class="flex justify-end mt-4">
+    <div class="text-gray-600">
+      Total: <span class="font-semibold">{{ totalCount }}</span> pizzas
+    </div>
   </div>
 
   <!-- Pagination -->
